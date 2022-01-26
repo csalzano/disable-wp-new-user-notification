@@ -1,12 +1,13 @@
 <?php
-/*
-Plugin Name: Disable wp new user notification
-Plugin URI: http://www.tacticaltechnique.com/wordpress/disable-wp-new-user-notification/
-Description: Disables the email sent to the administrator when a new user creates an account.
-Author: Corey Salzano
-Version: 0.100323
-Author URI: http://www.squidoo.com/corey-salzano
-*/
+defined( 'ABSPATH' ) or exit;
+/**
+ * Plugin Name: Disable New User Notification
+ * Plugin URI: https://github.com/csalzano/disable-wp-new-user-notification
+ * Description: Disables the email sent to the administrator when a new user creates an account.
+ * Author: Corey Salzano
+ * Author URI: https://breakfastco.xyz
+ * Version: 1.0.0
+ */
 
 if ( !function_exists('wp_new_user_notification') ) :
 	function wp_new_user_notification($user_id, $plaintext_pass = '') {
