@@ -6,11 +6,11 @@ Requires at least: 2.0.3
 Tested up to: 5.8.3
 Stable tag: 1.0.0
 
-This code disables the automatic email sent to the blog admin each time a new user creates an account. 
+This plugin disables the email sent to the site admin each time a new user creates an account. 
 
 == Description ==
 
-This plugin replaces the default wp_new_user_notification, the function that is called when a new user signs up. Typically, the code sends an email to the administrator. My code modifies the function so no email is sent. No other functionality is lost. The only purpose of this plugin is to prevent the new user notification emails. I wrote this plugin because I needed it for one of my sites that gets a few new users each day.
+Disables new user emails from being sent to the site admin. This plugin delivers this single feature only with less than 15 lines of code.
 
 == Installation ==
 
@@ -26,10 +26,22 @@ This plugin replaces the default wp_new_user_notification, the function that is 
 
 == Change Log ==
 
+= 1.0.0 =
+
+* [Added] Adds an explicit GPLv2 license declaration
+* [Fixed] Fixes the way this plugin works to use filters rather than pluggable functions for better compatibility with all versions of WordPress
+* [Changed] Changes tested up to version to 5.8.3
+* [Changed] Adopts semantic version numbers
+* [Changed] Updates links to this plugin's home page and my home page
+
 = 0.100323 =
 First build
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+
+Changes tested up to version to 5.8.3. Fixes the way this plugin works to use filters rather than pluggable functions for better compatibility with all versions of WordPress.
 
 = 0.100323 =
 First build

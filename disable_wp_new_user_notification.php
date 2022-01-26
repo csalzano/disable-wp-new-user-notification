@@ -1,5 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or exit;
+
 /**
  * Plugin Name: Disable New User Notification
  * Plugin URI: https://github.com/csalzano/disable-wp-new-user-notification
@@ -7,34 +8,29 @@ defined( 'ABSPATH' ) or exit;
  * Author: Corey Salzano
  * Author URI: https://breakfastco.xyz
  * Version: 1.0.0
+ * License: GPLv2
  */
 
-if ( !function_exists('wp_new_user_notification') ) :
-	function wp_new_user_notification($user_id, $plaintext_pass = '') {
+add_filter( 'wp_new_user_notification_email_admin', 'breakfast_disable_wp_mail', 10, 3 );
+function breakfast_disable_wp_mail( $wp_new_user_notification_email_admin, $user, $blogname )
+{
+	//Stop wp_mail() from working
+	add_filter( 'pre_wp_mail', '__return_false' );
 
-	        $user = new WP_User($user_id);
+	//Return an unchanged value from this filter
+	return $wp_new_user_notification_email_admin;
+}
 
-	        $user_login = stripslashes($user->user_login);
-	        $user_email = stripslashes($user->user_email);
-
-	        // The blogname option is escaped with esc_html on the way into the database in sanitize_option
-	        // we want to reverse this for the plain text arena of emails.
-	        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-
-	        $message  = sprintf(__('New user registration on your blog %s:'), $blogname) . "\r\n\r\n";
-	        $message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-	        $message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
-
-			// email to blog admin commented out by corey salzano
-	        //@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), $blogname), $message);
-
-	        if ( empty($plaintext_pass) )
-	                return;
-
-	        $message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
-	        $message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
-	        $message .= wp_login_url() . "\r\n";
-
-	        wp_mail($user_email, sprintf(__('[%s] Your username and password'), $blogname), $message);
+add_filter( 'wp_new_user_notification_email', 'breakfast_enable_wp_mail', 10, 3 );
+function breakfast_enable_wp_mail( $wp_new_user_notification_email, $user, $blogname )
+{
+	//Have we disabled wp_mail()?
+	if( has_filter( 'pre_wp_mail', '__return_false' ) )
+	{
+		//Yes, remove the filter that disables wp_mail()
+		remove_filter( 'pre_wp_mail', '__return_false' );
 	}
-endif;
+
+	//Return an unchanged value from this filter
+	return $wp_new_user_notification_email;
+}
